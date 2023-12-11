@@ -8,25 +8,6 @@
 
 右键单击项目“文件夹” > “添加” > “已搭建基架的新项”，选择要生成的项，然后单击添加。
 
-## Visual Studio 系统模板
-
-```
-C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE
-```
-
-## Visual Studio 用户模板
-
-```
-%UserProfile%\Documents\Visual Studio 2022\Templates
-```
-
-## 导出模板
-
-在 Visual Studio 中，选择“项目” > “导出模板”，然后按照向导中的说明操作。
-
-```
-%UserProfile%\Documents\Visual Studio 2022\My Exported Templates
-```
 
 ## 自定义基架模板
 
