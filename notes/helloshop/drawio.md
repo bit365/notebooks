@@ -10,7 +10,7 @@ Drawio 是一个开源的画图工具，支持在线和桌面两种方式，支�
 
 ## 画图入口
 
-[Drawio 官网](https://www.drawio.com){:target="_blank"}
+[Drawio 官网](https://www.drawio.com)
 
 [在线画图](https://www.drawio.com)
 
@@ -62,6 +62,15 @@ Drawio 是一个开源的画图工具，支持在线和桌面两种方式，支�
 
 使用阿里图标库 iconfont 找图，可以下载 SVG 图像，然后嵌入到 Drawio 中，可以修改 SVG 图像的样式，但需要配置规则，如下代码。
 
+```xml
+<svg>
+    <style type="text/css">
+        .st1{fill:#ffffff;stroke:#ffffff;}
+    </style>
+    <path class="st1" d="points"/>
+</svg>
+```
+
 ```
 editableCssRules=.*;
 ```
@@ -83,7 +92,7 @@ editableCssRules=.*;
 定义一个简单的路径动画。
 
 ```xml
-<circle r="3.5" fill="#00AA9E">
+<circle r="3.5" fill="#00aa9e">
     <animateMotion dur="5s" repeatCount="indefinite" path="points"/>
 </circle>
 ```
@@ -99,6 +108,3 @@ editableCssRules=.*;
     </animateMotion>
 </circle>
 ```
-
-## svgdata 插件
-
