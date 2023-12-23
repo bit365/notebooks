@@ -24,6 +24,12 @@ Visual Studio 2019 及更高版本支持 EditorConfig 文件，可以在 Visual 
 // Licensed under the MIT License.
 ```
 
+ ```
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the <<LICENSE_TYPE>> license.
+// See the LICENSE file in the project root for more information.
+ ```
+
 # 使用 EditorConfig 添加文件头版权信息
 
 在 Visual Studio 中使用 EditorConfig 文件添加文件头版权信息。
