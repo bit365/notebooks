@@ -93,6 +93,38 @@ UserManager、RoleManager、SignInManager、PasswordValidator 等服务都可以
 
 CURL 命令行工具、Edge 网络控制台、OpenApi、HTTP 文件、Postman、Insomnia、Visual Studio Code REST Client 插件等工具都可以用来测试 API 接口。
 
+## 基于 Baerer 身份认证
+
+```shell
+Authorization : Bearer <token string>
+```
+
+## OpenApi 集成 Baerer 身份认证
+
+```csharp
+services.Configure<SwaggerGenOptions>(options =>
+{
+    options.AddSecurityDefinition("bearerAuth", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Description = "JWT Authorization header using the Bearer scheme."
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "bearerAuth" }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
+```
+
 
 ## 参考资料
 
