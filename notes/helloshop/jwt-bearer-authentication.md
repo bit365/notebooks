@@ -65,3 +65,12 @@ builder.Services.AddAuthentication().AddJwtBearer().AddCustomJwtBearer(options =
     options.SecurityAlgorithm = SecurityAlgorithms.HmacSha256;
 });
 ```
+
+## 在容器中运行 pgAdmin 管理工具
+
+```shell
+
+docier pull dpage/pgadmin4
+
+docker run --name pgadmin -e PGADMIN_DEFAULT_EMAIL=test@test.com -e PGADMIN_DEFAULT_PASSWORD=test -e TZ=Asia/Shanghai -d -p 5050:80 dpage/pgadmin4
+```
