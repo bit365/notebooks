@@ -23,6 +23,68 @@
 
 基于角色的访问控制是指通过角色来控制用户对资源的访问权限。角色是一组权限的集合，用户通过分配角色来获取相应的权限。基于角色的访问控制模型简单易用，但是角色的管理和权限的分配比较复杂。
 
+## 权限 ACL 存储设计
+
+```csharp
+public class PermissionGranted
+{
+    public int Id { get; set; }
+
+    public int RoleId { get; set; }
+
+    public required string PermissionName { get; set; }
+
+    public string? ResourceType { get; set; }
+
+    public string? ResourceId { get; set; }
+}
+```
+
+## 在 DbContext 中配置 ACL 实体
+
+```csharp
+public void Configure(EntityTypeBuilder<PermissionGranted> builder)
+{
+    builder.ToTable("PermissionGranted");
+
+    builder.Property(x => x.Id);
+    builder.Property(x => x.PermissionName).HasMaxLength(64);
+    builder.Property(x => x.ResourceType).HasMaxLength(16);
+    builder.Property(x => x.ResourceId).HasMaxLength(32);
+
+    builder.HasOne<Role>().WithMany().HasForeignKey(x => x.RoleId).IsRequired();
+
+    builder.HasIndex(x => new { x.RoleId, x.PermissionName, x.ResourceType, x.ResourceId }).IsUnique();
+}
+
+```
+
+## 设计一个权限检查器
+
+```csharp
+public interface IPermissionChecker
+{
+    Task<bool> IsGrantedAsync(string name, string? resourceType = null, string? resourceId = null);
+
+    Task<bool> IsGrantedAsync(ClaimsPrincipal claimsPrincipal, string name, string? resourceType = null, string? resourceId = null);
+}
+```
+
+## 实现权限检查器
+
+
+![permission-checker](https://oss.xcode.me/notes/helloshop/permission-checker.svg)
+
+```csharp
+public class RemotePermissionChecker: IPermissionChecker
+
+public class LocalPermissionChecker: IPermissionChecker
+```
+
+## 实现权限检查器
+
+使用 DbContext 实现本地权限检查器，使用 HttpClient 实现远程权限检查器。
+
 ## ASP.NET Core 中的授权系统
 
 ASP.NET Core 中的授权系统是基于策略的授权系统，可以通过声明式的方式来定义授权策略。授权策略可以基于角色，也可以基于资源，也可以基于其他的条件。授权策略可以通过声明式的方式来定义，也可以通过代码的方式来定义。
@@ -107,65 +169,3 @@ public class PermissionRequirementHandler(IPermissionChecker permissionChecker) 
     }
 }           
 ``` 
-
-## 设计一个权限检查器
-
-```csharp
-public interface IPermissionChecker
-{
-    Task<bool> IsGrantedAsync(string name, string? resourceType = null, string? resourceId = null);
-
-    Task<bool> IsGrantedAsync(ClaimsPrincipal claimsPrincipal, string name, string? resourceType = null, string? resourceId = null);
-}
-```
-
-## 实现权限检查器
-
-
-![permission-checker](https://oss.xcode.me/notes/helloshop/permission-checker.svg)
-
-```csharp
-public class RemotePermissionChecker: IPermissionChecker
-
-public class LocalPermissionChecker: IPermissionChecker
-```
-
-## 权限 ACL 存储设计
-
-```csharp
-public class PermissionGranted
-{
-    public int Id { get; set; }
-
-    public int RoleId { get; set; }
-
-    public required string PermissionName { get; set; }
-
-    public string? ResourceType { get; set; }
-
-    public string? ResourceId { get; set; }
-}
-```
-
-## 在 DbContext 中配置 ACL 实体
-
-```csharp
-public void Configure(EntityTypeBuilder<PermissionGranted> builder)
-{
-    builder.ToTable("PermissionGranted");
-
-    builder.Property(x => x.Id);
-    builder.Property(x => x.PermissionName).HasMaxLength(64);
-    builder.Property(x => x.ResourceType).HasMaxLength(16);
-    builder.Property(x => x.ResourceId).HasMaxLength(32);
-
-    builder.HasOne<Role>().WithMany().HasForeignKey(x => x.RoleId).IsRequired();
-
-    builder.HasIndex(x => new { x.RoleId, x.PermissionName, x.ResourceType, x.ResourceId }).IsUnique();
-}
-
-```
-
-## 实现权限检查器
-
-使用 DbContext 实现本地权限检查器，使用 HttpClient 实现远程权限检查器。
