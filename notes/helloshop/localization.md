@@ -148,6 +148,8 @@ https://learn.microsoft.com/zh-cn/dotnet/framework/tools
 
 必应搜索 `Resx Translation` 关键字可以找到很多翻译工具，可以将英文资源文件翻译成其他语言。
 
+![自动翻译工具](https://oss.xcode.me/notes/helloshop/auto-resx-translator.png)
+
 https://github.com/salarcode/AutoResxTranslator
 
 https://github.com/stevencohn/ResxTranslator
