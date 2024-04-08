@@ -103,3 +103,31 @@ public async Task<ActionResult<PagedResponse<UserListItem>>> GetUsers([FromQuery
     return new PagedResponse<UserListItem>(mapper.Map<List<UserListItem>>(await pagedUsers.ToListAsync()), await users.CountAsync());
 }
 ```
+
+## 实现灵活的复杂查询
+
+可以使用 OData 或者 GraphQL 来实现更复杂的查询。
+
+OData 是一种基于 REST 的协议，它使用 URL 来查询和操作数据。OData 通过 URL 查询字符串参数来过滤、排序、分页和选择数据。示例：
+
+```shell
+http://localhost:8080/api/products?$filter=price gt 100&$orderby=price desc&$top=5&$skip=10
+```
+
+关于 OData 的更多信息请参考 [零度 OData 课程](https://www.xcode.me/Training?keyword=odata)
+
+GraphQL 是一种用于 API 的查询语言，它提供了一种更高效、强大和灵活的替代方案。GraphQL 通过一个单一的端点来查询和操作数据。示例：
+
+```shell
+http://localhost:8080/graphql
+```
+
+```graphql
+query {
+  products(filter: {price: {gt: 100}}, orderBy: {price: desc}, top: 5, skip: 10) {
+    id
+    name
+    price
+  }
+}
+```
