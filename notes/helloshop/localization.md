@@ -1,5 +1,7 @@
 # 全球化与本地化
 
+实现多语言的方法有很多种，可以使用资源文件、数据库、配置文件等方式，本文主要介绍使用资源文件的方式实现多语言，也是微软官方推荐的方式。其它的比如 PO 文件、JSON 文件等也可以实现多语言，但是不如资源文件方便.
+
 ## 创建资源文件
 
 ```text
@@ -70,13 +72,10 @@ http://localhost:5000/?culture=en-Us
 .AspNetCore.Culture=en-US
 ```
 
-## OpenApi 设置 Accept-Language
+## OpenApi 设置 Accept-Language 以实现多语言
 
 ```csharp
-services.AddSwaggerGen(c =>
-{
-    c.OperationFilter<AcceptLanguageHeaderOperationFilter>();
-});
+services.Configure<SwaggerGenOptions>(options => options.OperationFilter<AcceptLanguageHeaderOperationFilter>());
 ```
 
 ```csharp
@@ -84,23 +83,23 @@ public class AcceptLanguageHeaderOperationFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {
-        if (operation.Parameters == null)
+        var parameter = new OpenApiParameter
         {
-            operation.Parameters = new List<OpenApiParameter>();
-        }
-
-        operation.Parameters.Add(new OpenApiParameter
-        {
-            Name = "Accept-Language",
+            Name = HeaderNames.AcceptLanguage,
             In = ParameterLocation.Header,
             Required = false,
             Schema = new OpenApiSchema
             {
-                Type = "string"
+                Default = new OpenApiString("zh-CN"),
+                Type = "string",
+                Enum = [new OpenApiString("zh-CN"), new OpenApiString("en-US")]
             }
-        });
+        };
+
+        operation.Parameters.Add(parameter);
     }
 }
+
 ```
 
 ## 实现模型和属性的本地化
