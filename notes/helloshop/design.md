@@ -4,9 +4,18 @@
 
 用户体验（User Experience，简称 UX）是用户在使用产品时的感受，是一个综合性的概念，包括用户对产品的感知、情感、态度、情绪等。用户体验设计（User Experience Design，简称 UXD）是一种以用户为中心的设计方法，目的是提高用户满意度，提高用户对产品的认知和使用。
 
+颜色、字体、布局、交互等因素都会影响用户体验，因此在设计用户界面时需要考虑用户体验，提供简洁、直观、易用的界面，以提高用户满意度。
+
+## 扁平化和拟物化
+
+扁平化设计（Flat Design）是一种简洁、直观的设计风格，强调简单、明了的界面设计，去除了繁琐的装饰和冗余的元素，使用户更容易理解和操作。拟物化设计（Skeuomorphism）是一种仿真真实物体的设计风格，强调真实感和细节，使用户更容易理解和操作。
+
+搜索 Flat vs Skeuomorphism 了解更多信息。
+
+
 ## 常见的设计语言 
 
-Google Material Design、Microsoft Fluent Design System、Alibaba Ant Desig ...
+Google Material Design、Microsoft Fluent Design System、Alibaba Ant Design ...
 
 ## Material Design
 
