@@ -1,10 +1,10 @@
-# 基于资源的授权的最佳实践
+# 基于资源授权的最佳实践
 
 ## 在 Identity Service 中提供权限检查接口
 
 ```csharp
 [HttpHead]
-public async Task<ActionResult<IEnumerable<PermissionGrantedResponse>>> CheckPermission(string permissionName, string? resourceType = null, string? resourceId = null
+public async Task<IActionResult> CheckPermission(string permissionName, string? resourceType = null, string? resourceId = null
 {
     if (await permissionChecker.IsGrantedAsync(permissionName, resourceType, resourceId))
     {

@@ -1,3 +1,5 @@
+![2024-04-09-07-17-04](https://oss.xcode.me/notes/helloshop/2024-04-09-07-17-04.png)
+
 # 制作动态流程图和架构图
 
 ## 微软 Visio 工具
