@@ -102,6 +102,20 @@ public class AcceptLanguageHeaderOperationFilter : IOperationFilter
 
 ```
 
+## 实现数据展示的全球化
+
+```csharp
+
+public class HelloWorldController(IStringLocalizerFactory stringLocalizerFactory) : ControllerBase
+{
+    [HttpGet("time")]
+    public IActionResult GetTime(
+    {
+        return Ok(TimeProvider.UtcNow.ToString());
+    }
+}
+```
+
 ## 实现模型和属性的本地化
 
 ```csharp
