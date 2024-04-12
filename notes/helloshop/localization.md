@@ -111,6 +111,7 @@ public class HelloWorldController(IStringLocalizerFactory stringLocalizerFactory
     [HttpGet("time")]
     public IActionResult GetTime(
     {
+        //string amount=88.88m.ToString("C");
         return Ok(TimeProvider.UtcNow.ToString());
     }
 }
