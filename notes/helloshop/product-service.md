@@ -172,6 +172,19 @@ CatalogPermissionDefinitionProvider.en-US.resx
 CatalogPermissionDefinitionProvider.zh-CN.resx
 ```
 
+## 实体属性本地化
+
+```csharp
+namespace HelloWorld.ProductService.Entities.Products
+{
+    public class Product
+    {
+        [Display(Name = "Product_Name")]
+        public string Name { get; set; }
+    }
+}
+```
+
 ## 重复性工作
 
 重复性工作可以通过代码生成工具来减少，例如 Visual Studio 插件， T4 模板， Roslyn 等。
