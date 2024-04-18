@@ -179,7 +179,7 @@ namespace HelloWorld.ProductService.Entities.Products
 {
     public class Product
     {
-        [Display(Name = "Product_Name")]
+        [Display(Name = "ProductName")]
         public string Name { get; set; }
     }
 }
