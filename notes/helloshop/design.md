@@ -56,6 +56,11 @@ https://github.com/ant-design-blazor/ant-design-blazor
 https://github.com/radzenhq/radzen-blazor
 
 
+## 选择组件
+
+风格统一、易用性、可定制性、性能优化、文档完善、社区活跃、维护更新、商业授权等因素都会影响组件库的选择。
+
+
 ## 原型工具
 
 MasterGo 和 Figma 是两个常用的原型工具，可以用来设计和制作用户界面原型，提供了丰富的组件库和交互效果，可以帮助设计师快速制作用户界面原型。
