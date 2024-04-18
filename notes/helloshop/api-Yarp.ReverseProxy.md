@@ -1,4 +1,4 @@
-# 网关和
+# 网关和服务发现
 
 ## 构建和设计 API 网关
 
@@ -26,35 +26,71 @@ Ocelot 和 Yarp 是一个基于.NET 的开源 API 网关，它可以用于构建
 dotnet add package Yarp.ReverseProxy
 ```
 
-## 使用 Aspire 服务发现
-```shell
-dotnet add package Microsoft.Extensions.ServiceDiscovery.Yarp
-```
-
 ## 使用配置文件配置 Yarp
 
 ```json
 {
   "ReverseProxy": {
+    "Routes": {
+      "testserviceRoute": {
+        "ClusterId": "testServiceCluster",
+        "Match": {
+          "Path": "testservice/{**remainder}"
+        },
+        "Transforms": [
+          { "PathPattern": "{**remainder}" }
+        ]
+      }
+    },
     "Clusters": {
-      "cluster1": {
+      "testServiceCluster": {
         "Destinations": {
-          "destination1": {
-            "Address": "https://localhost:5001"
+          "testServiceCluster/destination1": {
+            "Address": "http://identityservice"
           }
         }
       }
-    },
-    "Routes": [
-      {
-        "RouteId": "route1",
-        "ClusterId": "cluster1",
-        "Match": {
-          "Host": "localhost",
-          "Path": "/api"
-        }
-      }
-    ]
+    }
   }
 }
+```
+
+## .NET 中的服务发现
+
+服务发现是一种用于发现和定位服务的机制，它可以帮助客户端找到服务的位置和地址。服务发现可以用于构建和设计微服务架构中的 API 网关，以便客户端可以通过 API 网关访问后端服务。
+
+## 使用服务发现
+
+https://learn.microsoft.com/zh-cn/dotnet/core/extensions/service-discovery
+
+```shell
+dotnet add package Microsoft.Extensions.ServiceDiscovery --prerelease
+```
+
+```csharp
+builder.Services.AddServiceDiscovery();
+
+builder.Services.ConfigureHttpClientDefaults(static http =>
+{
+    // Turn on service discovery by default
+    http.AddServiceDiscovery();
+});
+```
+
+```json
+{
+  "Services": {
+    "catalog": {
+      "https": [
+        "localhost:8080",
+        "10.46.24.90:80"
+      ]
+    }
+  }
+}
+```
+
+## 在反向代理中使用服务发现
+```shell
+dotnet add package Microsoft.Extensions.ServiceDiscovery.Yarp
 ```
