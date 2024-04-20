@@ -73,7 +73,7 @@ builder.Services.AddServiceDiscovery();
 builder.Services.ConfigureHttpClientDefaults(static http =>
 {
     // Turn on service discovery by default
-    http.AddServiceDiscovery();
+    http.UseServiceDiscovery();
 });
 ```
 
