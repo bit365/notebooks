@@ -34,6 +34,8 @@ public interface IPermissionService
 
 UserCreateRequestValidator 从 IdentityServiceDbContext 更改为 UserManager<User>
 
+权限定义端点返回的 Json 中 name 属性更改为 groupName
+
 
 ## 远程权限检查 BUG 修复
 
