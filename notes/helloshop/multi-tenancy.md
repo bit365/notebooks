@@ -4,6 +4,9 @@
 
 多租户应用程序是一种软件架构设计，允许单个实例的软件服务多个客户，每个客户被称为一个租户，租户之间的数据自动隔离的，租户之间的数据不会相互影响。
 
+![multi-tenancy](https://oss.xcode.me/notes/helloshop/multi-tenancy.svg)
+
+
 零度编程官网搜索「多租户」查看多租户设计视频教程。
 
 ## 单表多字段隔离租户数据
@@ -91,3 +94,7 @@ protected override void OnModelCreating(ModelBuilder modelBuilder)
 
 目前 EF Core 不支持在迁移时自动创建 Schema，需要手动创建 Schema。
 
+
+## 零度框架中实现多租户
+
+设计租户表，在登录令牌中包括租户编号，在每次请求中提取令牌中的租户编号，根据租户编号查询租户信息，将租户信息存储在当前请求的上下文中，通过租户信息来隔离租户数据。
