@@ -4,9 +4,9 @@
 
 ## 单元测试
 
-单元测试是一种试验单个软件组件或方法（也称为“工作单元”）的测试。 单元测试仅应测试开发人员控件内的代码。 它们不测试基础结构问题。 基础结构问题包括与数据库、文件系统和网络资源的交互。
+单元测试是一种试验单个软件组件或方法（也称为“工作单元”）的测试。 单元测试仅应测试开发人员控件内的代码。 它们不测试基础结构问题。 基础结构问题包括与数据库、文件系统和网络资源的交互，零度框架中的单元测试使用 `xUnit` 框架，
 
-项目命名规范： `<ProjectNamej>.UnitTests`。
+项目命名规范： `<ProjectName>.UnitTests`。
 
 ```csharp
 public class Calculator
@@ -40,38 +40,61 @@ https://learn.microsoft.com/zh-cn/dotnet/core/testing/unit-testing-best-practice
 
 ## 集成测试
 
-集成测试与单元测试的不同之处在于，它试验两个或更多软件组件一同工作（也称为其“集成”）的能力。这些测试在更广泛范围的受测系统上运行，而单元测试则侧重于单个组件。 通常，集成测试会包括对基础结构问题的测试。
+集成测试也称为功能测试，与单元测试的不同之处在于，它试验两个或更多软件组件一同工作集成能力。这些测试在更广泛范围的受测系统上运行，而单元测试则侧重于单个组件函数，通常，集成测试会包括对基础结构问题的测试，例如数据库、文件系统和网络资源的交互。
 
-项目命名规范： `<ProjectNamej>.FunctionalTests`。
+项目命名规范： `<ProjectName>.FunctionalTests`。
 
 ```csharp
-public class Calculator
+public class Controller: ControllerBase
 {
-    public int Add(int a, int b)
+    private readonly IService _service;
+
+    public Controller(IService service)
     {
-        return a + b;
+        _service = service;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Get(int id)
+    {
+        var result = await _service.Get(id);
+        return Ok(result);
     }
 }
 
-public class CalculatorTests
+public class Service: IService
 {
+    public async Task<Model> Get(int id)
+    {
+        return await _repository.Get(id);
+    }
+}
+
+public class ServiceTest: IClassFixture<WebApplicationFactory<Startup>>
+{
+    private readonly WebApplicationFactory<Startup> _factory;
+
+    public ServiceTest(WebApplicationFactory<Startup> factory)
+    {
+        _factory = factory;
+    }
+
     [Fact]
-    public void Add_WhenCalled_ReturnsTheSumOfArguments()
+    public async Task Get_WhenCalled_ReturnsModel()
     {
         // Arrange
-        var calculator = new Calculator();
-
-        // Act
-        var result = calculator.Add(1, 2);
+        var client = _factory.CreateClient();
+        var response = await client.GetAsync("/api/controller/1");
+        response.EnsureSuccessStatusCode();
+        var model = await response.Content.ReadAsAsync<Model>();
 
         // Assert
-        Assert.Equal(3, result);
+        Assert.NotNull(model);
     }
 }
 ```
 
 ## 负载测试和压力测试
-
 
 负载测试：测试应用是否可以在特定情况下处理指定的用户负载，同时仍满足响应目标，应用在正常状态下运行。
 
@@ -82,3 +105,7 @@ public class CalculatorTests
 ## 在 Blazor 中测试 Razor 组件
 
  Playwright for .NET 就是一个可用于 Blazor 应用的 E2E 测试框架。没有面向 Blazor 的官方 Microsoft 测试框架，但社区驱动的项目 bUnit 提供一种方便的方法来对 Razor 组件进行单元测试。bUnit 适用于常规用途的测试框架，例如 MSTest、NUnit 和 xUnit。
+
+## 基准测试
+
+基准测试是一种测试方法，用于确定应用程序的性能基准。基准测试通常用于确定应用程序的性能基准，以便在应用程序的生命周期中进行性能优化。使用 `BenchmarkDotNet` 进行基准测试。
