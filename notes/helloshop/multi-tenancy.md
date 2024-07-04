@@ -60,7 +60,6 @@ private void MultiTenancyTracking(DbContext dbContext)
 
 多数据库多租户设计是指为每个租户创建一个独立的数据库，通过数据库连接字符串来区分不同租户的数据。
 
-
 ```csharp
 
 protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -75,6 +74,8 @@ protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     base.OnConfiguring(optionsBuilder);
 }
 ```
+
+[ZeroFramework TenantDbConnectionInterceptor](https://github.com/bit365/zeroframework/blob/master/Services/DeviceCenter/ZeroFramework.DeviceCenter.Infrastructure/ConnectionStrings/TenantDbConnectionInterceptor.cs)
 
 ## 基于 Schema 的多租户设计
 
