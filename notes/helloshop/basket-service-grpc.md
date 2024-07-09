@@ -60,3 +60,75 @@ message HelloReply {
   string message = 1;
 }
 ```
+
+## 单元测试 gRPC 服务
+
+```shell
+dotnet add package moq
+```
+  
+```csharp
+public class GreeterServiceTests
+{
+    [Fact]
+    public async Task SayHello_ReturnsHello()
+    {
+        // Arrange
+        var mockLogger = new Mock<ILogger<GreeterService>>();
+        var service = new GreeterService(mockLogger.Object);
+        var request = new HelloRequest { Name = "Unit Test" };
+        var context = new ServerCallContext();
+
+        // Act
+        var reply = await service.SayHello(request, context);
+
+        // Assert
+        Assert.Equal("Hello Unit Test", reply.Message);
+    }
+}
+```
+
+## 集成测试 gRPC 服务
+
+```shell
+dotnet add package Microsoft.AspNetCore.TestHost
+```
+
+```csharp
+public class GreeterServiceIntegrationTests
+{
+    private readonly TestServer _server;
+    private readonly Greeter.GreeterClient _client;
+
+    public GreeterServiceIntegrationTests()
+    {
+        _server = new TestServer(new WebHostBuilder()
+            .ConfigureServices(services =>
+            {
+                services.AddGrpc();
+            })
+            .Configure(app =>
+            {
+                app.UseRouting();
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints.MapGrpcService<GreeterService>();
+                });
+            }));
+        _client = new Greeter.GreeterClient(_server.CreateGrpcChannel());
+    }
+
+    [Fact]
+    public async Task SayHello_ReturnsHello()
+    {
+        // Arrange
+        var request = new HelloRequest { Name = "Integration Test" };
+
+        // Act
+        var reply = await _client.SayHelloAsync(request);
+
+        // Assert
+        Assert.Equal("Hello Integration Test", reply.Message);
+    }
+}
+```
