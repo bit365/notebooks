@@ -13,10 +13,14 @@ gRPC 使用 Protocol Buffers 作为接口定义语言（IDL），Protocol Buffer
 定义一个 gRPC 服务，需要创建一个 gRPC 服务定义文件（.proto 文件），然后使用 gRPC 工具生成服务端和客户端代码。
 
 
-## 带有OpenAPI 的 gRPC 服务
+## 带有 OpenAPI 的 gRPC 服务
 
 ```shell
 dotnet add package Microsoft.AspNetCore.Grpc.Swagger
+```
+
+```xml
+<IncludeHttpRuleProtos>true</IncludeHttpRuleProtos>
 ```
 
 ```csharp
