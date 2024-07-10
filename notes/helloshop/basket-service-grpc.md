@@ -6,6 +6,8 @@ gRPC 是一个高性能、开源和通用的 RPC 框架，由 Google 开发，�
 
 gRPC 使用 Protocol Buffers 作为接口定义语言（IDL），Protocol Buffers 是一种轻便高效的结构化数据序列化方法，类似于 XML 或 JSON，但更小、更快、更简单。
 
+![basket-service-grpc](https://oss.xcode.me/notes/helloshop/basket-service-grpc.svg)
+
 ## ASP.NET Core 中使用 gRPC 实现服务
 
 定义一个 gRPC 服务，需要创建一个 gRPC 服务定义文件（.proto 文件），然后使用 gRPC 工具生成服务端和客户端代码。
