@@ -52,7 +52,7 @@ public class MyService(IDistributedCache cache) : IService
 
 Redis 是一个高性能、开源的分布式缓存系统，它是一个内存数据库，支持多种数据结构，如字符串、列表、哈希表、集合等，Redis 的设计目标是提供一个高性能、低延迟的分布式缓存系统，以支持大规模的数据存储和访问，同时提供高可用性和可扩展性。Redis 采用 RESP 协议，使用 C 语言编写，支持多种语言，如 C、C++、C#、Java、Python、Node.js 等，可以在 .NET 中使用 StackExchange.Redis 开源库对缓存进行操作。
 
-Windows 下 Redis 不再维护，可以使用 WSL2 安装 Redis，或者使用 Docker 安装 Redis。
+Windows 下 Redis 不再维护，可以使用 WSL2 安装 Redis，或者使用 Docker 安装 Redis。也可使用 Memurai 替代 Redis，Memurai 是一个 Windows 下的 Redis 服务，支持 Redis 的大部分功能，可以在 Windows 下运行 Redis 服务。
 
 ### 容器化 Redis 服务
 
@@ -148,22 +148,7 @@ catch (Exception ex)
 }
 ```
 
-```shell
-dotnet add package Microsoft.Garnet.Client
-```
-
-```csharp
-using Garnet.Client;
-
-var client = new GarnetClient("localhost", 6379, "Password");
-
-client.Set("key", "value");
-
-var value = client.Get("key");
-
-```
-
-###  在 Docker 中运行
+###  在 Docker 容器中运行
 
 ```shell
 docker run --name garnet -d -p 6379:6379 --ulimit memlock=-1 ghcr.io/microsoft/garnet --auth Password --password guest
@@ -172,60 +157,66 @@ docker run --name garnet -d -p 6379:6379 --ulimit memlock=-1 ghcr.io/microsoft/g
 ### 使用 Window Service 运行
 
 ```shell
+dotnet add package Microsoft.Garnet
 dotnet add package Microsoft.Extensions.Hosting.WindowsServices
 ```
 
 ```csharp
-using Garnet;
 
-public class Program
+public class GarnetService(ILogger<GarnetService> logger) : BackgroundService
 {
-    public static void Main(string[] args)
+    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        CreateHostBuilder(args).Build().Run();
-    }
+        if (!stoppingToken.IsCancellationRequested)
+        {
+            string[] commandLineArgs = Environment.GetCommandLineArgs();
 
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .UseWindowsService()
-            .ConfigureServices((hostContext, services) =>
+            using var server = new GarnetServer(commandLineArgs);
+
+            logger.LogInformation("Starting Garnet server...");
+
+            try
             {
-                services.AddHostedService<GarnetService>();
-            });
+                server.Start();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "An error occurred while starting the Garnet server.");
+            }
+
+
+            logger.LogInformation("Garnet server started.");
+
+            await Task.Delay(Timeout.Infinite, stoppingToken);
+        }
+    }
 }
+
 ```
 
 ```csharp
+var builder = Host.CreateApplicationBuilder(args);
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Garnet;
-using Microsoft.Extensions.Hosting;
-
-public class GarnetService : IHostedService
+builder.Services.AddWindowsService(options =>
 {
-    private GarnetServer _server;
+    options.ServiceName = "Garnet Service";
+});
 
-    public Task StartAsync(CancellationToken cancellationToken)
-    {
-        _server = new GarnetServer();
-        _server.Start();
-        return Task.CompletedTask;
-    }
+builder.Services.AddHostedService<GarnetService>();
 
-    public Task StopAsync(CancellationToken cancellationToken)
-    {
-        _server.Stop();
-        return Task.CompletedTask;
-    }
-}
+var host = builder.Build();
+
+host.Run();
 ```
 
 ```shell
-sc create GarnetService binPath= "C:\path\to\GarnetService.exe"
+sc.exe create GarnetService binpath= "C:\Users\GarnetWindowsService.exe" start= auto
 
-sc start GarnetService
+sc.exe start GarnetService
+
+sc.exe stop GarnetService
+
+sc.exe delete GarnetService
 
 ```
 
@@ -299,4 +290,10 @@ IDistributedCache 过期时间分为：绝对过期时间和滑动过期时间�
 
 ## 分布式缓存监控工具
 
-可用 RedisInsight、Garnet Dashboard、Grafana 等工具监控分布式缓存系统。
+可用 RedisInsight 工具监控 Redis 分布式缓存系统。
+
+https://redis.io/docs/latest/operate/redisinsight/install
+
+```shell
+docker run -d --name redisinsight -p 5540:5540 redis/redisinsight:latest
+```
