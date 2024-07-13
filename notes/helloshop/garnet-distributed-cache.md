@@ -217,7 +217,6 @@ sc.exe start GarnetService
 sc.exe stop GarnetService
 
 sc.exe delete GarnetService
-
 ```
 
 ## 购物车使用分布式缓存
@@ -296,4 +295,27 @@ https://redis.io/docs/latest/operate/redisinsight/install
 
 ```shell
 docker run -d --name redisinsight -p 5540:5540 redis/redisinsight:latest
+```
+
+## 使用 Aspire 分布式组件库
+
+### Aspire Host 项目配置
+
+```shell
+dotnet add package Aspire.Hosting.Redis
+```
+
+```csharp
+var redis = builder.AddRedis("cache");
+builder.AddProject<Projects.ExampleProject>().WithReference(redis)
+```
+
+### 微服务项目配置
+
+```shell
+dotnet add package Aspire.StackExchange.Redis.DistributedCaching
+```
+
+```csharp
+builder.AddRedisDistributedCache("cache");
 ```
