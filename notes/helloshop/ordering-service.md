@@ -117,7 +117,18 @@ dotnet add package Dapr.AspNetCore
 services.AddDaprClient();
 ```
 
-## 使用
+## 重构文件夹
+
+`EntityFrameworks` 文件架更改为 `Infrastructure` 文件夹
+
+`BasketService` 微服务 `Infrastructure` 之下再放 `Repositories`
+
+## 实现发件箱模式
+
+```csharp
+builder.Services.AddTransient<IDistributedEventLogService, DistributedEventLogService<OrderingServiceDbContext>>();
+```
+
 
 ## 参考资料
 
