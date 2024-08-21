@@ -68,7 +68,7 @@ docker run --name postgres2 -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 -v ${p
 CREATE ROLE replica LOGIN REPLICATION ENCRYPTED PASSWORD 'replica_password';
 ```
 
-修改 `pg_hba.conf` 文件，允复制用户连接主服务器。
+修改 `pg_hba.conf` 文件，允许复制用户连接主服务器。
 
 ```shell
 host replication replica all trust
