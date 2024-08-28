@@ -2,6 +2,12 @@
 
 Azure Data Studio 是一个轻量级的跨平台数据库工具，提供了一个现代化的用户界面，可以帮助用户更轻松地管理数据库。
 
+## 全部代码开源
+
+Azure Data Studio 是一个开源项目，全部代码都托管在 GitHub 上，用户可以自由查看源代码，也可以参与到项目中来。
+
+https://github.com/Microsoft/azuredatastudio
+
 ## 可管理的数据库
 
 Azure Data Studio 支持多种数据库，包括 SQL Server、PostgreSQL、MySQL 、TimescaleDB、Oracle 等，通过安装相应的扩展，可以支持更多的数据库。
@@ -45,6 +51,12 @@ Azure Data Studio 集成了 Git，可以帮助用户更轻松地管理 SQL 脚�
 ## 扩展能力
 
 可在线安装扩展，或者使用 VSIX 文件手动安装扩展，扩展可以提供更多的功能。
+
+## 一些好用的扩展
+
+- SQL Server Import (mssql)  - 导入数据
+- SQL Server Profiler(mssql) - 分析 SQL Server 数据库性能
+- SQL Server Agent(mssql) - 管理 SQL Server 代理
 
 ## 与 SQL Server Management Studio 相比
 
