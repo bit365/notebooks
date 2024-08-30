@@ -5,18 +5,16 @@ CQRS 是命令和查询责任分离的英文缩写，它是一种将读取操作
 
 ## 为什么要使用 CQRS 模式
 
-在传统的体系结构中，使用同一数据模型查询和更新数据库。 这十分简单，非常适用于基本的 CRUD 操作。
 
-![crud](https://oss.xcode.me/notes/helloshop/crud.png)
+在传统的体系结构中，使用同一数据模型查询和更新数据库。 这十分简单，非常适用于基本的 CRUD 操作。
 
 
 CQRS 将读取和写入分离到不同的模型，使用命令来更新数据，使用查询来读取数据。读取存储可以是写入存储的只读副本，或者读取和写入存储可以具有完全不同的结构。 使用多个只读副本可以提高查询性能，尤其是在只读副本靠近应用程序实例的分布式方案中。
 
 
-![cqrs](https://oss.xcode.me/notes/helloshop/cqrs.png)
-
-
 ## 使用 MediatR 实现 CQRS 中的 Command 模式
+
+![ordering-service-flow](https://oss.xcode.me/notes/helloshop/ordering-service-flow.svg)
 
 ```shell
 dotnet add package MediatR
@@ -71,6 +69,8 @@ builder.Services.AddMediatR(options => options.RegisterServicesFromAssembly(Asse
 ```
 
 ## 使用 Mediator 请求管道处理 CQRS 中的命令
+
+![ordering-service-identified-command](https://oss.xcode.me/notes/helloshop/ordering-service-identified-command.svg)
 
 `LoggingBehavior`、`ValidatorBehavior` 和 `TransactionBehavior`
 
@@ -128,6 +128,11 @@ services.AddDaprClient();
 ```csharp
 builder.Services.AddTransient<IDistributedEventLogService, DistributedEventLogService<OrderingServiceDbContext>>();
 ```
+
+## 通用类型映射和验证
+
+![ordering-service-validator-mapper](https://oss.xcode.me/notes/helloshop/ordering-service-validator-mapper.svg)
+
 
 
 ## 参考资料
