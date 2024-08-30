@@ -69,8 +69,7 @@ builder.Services.AddMediatR(options => options.RegisterServicesFromAssembly(Asse
 ```
 
 ## 使用 Mediator 请求管道处理 CQRS 中的命令
-
-![ordering-service-identified-command](https://oss.xcode.me/notes/helloshop/ordering-service-identified-command.svg)
+=
 
 `LoggingBehavior`、`ValidatorBehavior` 和 `TransactionBehavior`
 
@@ -91,6 +90,12 @@ builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
 builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
 ```
+
+## 消息去重机制
+
+
+![ordering-service-identified-command](https://oss.xcode.me/notes/helloshop/ordering-service-identified-command.svg)
+
 
 ## 实现 CQRS 中的 Query 模式
 
