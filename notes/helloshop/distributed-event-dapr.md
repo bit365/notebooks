@@ -1,5 +1,9 @@
 # 分布式事件最佳实践
 
+## Dapr 技术架构
+
+https://docs.dapr.io/concepts/overview
+
 ## 安装 Dapr CLI 脚手架工具
 
 https://docs.dapr.io/zh-hans/getting-started/install-dapr-cli
