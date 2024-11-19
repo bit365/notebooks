@@ -141,16 +141,20 @@ mv /var/lib/postgresql/data/my_data_backup /var/lib/postgresql/data
 
 同步复制是指主服务器将 WAL 记录发送到从服务器，等待从服务器确认，只有从服务器确认后，主服务器才会继续处理其他事务，这样可以保证数据的一致性，但是会降低主服务器的性能。
 
-#### 主服务器配置同步复制。
+#### 主服务器配置同步复制
+
+在 postgres1 执行以下命令。
 
 ```sql
-ALTER SYSTEM SET synchronous_standby_names = 'postgres2';
+ALTER SYSTEM SET synchronous_standby_names = 'standby2';
 ```
 
-### 从服务器配置
+#### 从服务器配置
 
-在 postgres2 的数据目录中修改 `postgresql.auto.conf` 文件.
+在 postgres2 的数据目录中修改 `postgresql.auto.conf` 文件，添加以下配置。
 
 ```text
-primary_conninfo = 'user=testuser password=testpwd host=postgres1_ip_address port=5431 sslmode=prefer sslcompression=1 krbsrvname=postgres target_session_attrs=any'
+primary_conninfo = 'application_name=standby2'
 ```
+
+https://www.cnblogs.com/haha029/p/16721007.html
