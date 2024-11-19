@@ -4,6 +4,8 @@
 
 https://learn.microsoft.com/zh-cn/azure/architecture/patterns/cqrs
 
+https://www.xcode.me/Training/UnitNote/576
+
 ### 定义订单查询接口
 
 ```csharp
