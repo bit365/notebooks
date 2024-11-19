@@ -1,4 +1,4 @@
-# 运行 Aspire 微服务程序
+# 使用 Aspire 启动分布式微服务
 
 ## 准备数据库
 
@@ -72,7 +72,7 @@ var utcNow = DateTimeOffset.UtcNow;
 当显示时间时，可以使用 ToLocalTime 方法转换为本地时间。
 
 ```csharp
-var localTime = now.LocalDateTime;
+var localTime = utcNow.LocalDateTime;
 ```
 
 PostgreSQL 数据库中的时间类型是 timestamp with time zone，它会将时间转换为 UTC 时间存储。
