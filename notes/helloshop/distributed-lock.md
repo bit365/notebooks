@@ -47,3 +47,8 @@ https://github.com/madelson/DistributedLock
 零度框架中提供分布式锁的基本抽象，并基于 Dapr 实现了分布式锁。
 
 https://docs.dapr.io/developing-applications/building-blocks/distributed-lock/distributed-lock-api-overview
+
+
+## Redis 分布式锁原理
+
+Redis 分布式锁的实现原理是通过 SETNX 命令，SETNX 是 Redis 的一个原子性操作，它会在键不存在时设置键的值，如果键已经存在，则不做任何操作。
