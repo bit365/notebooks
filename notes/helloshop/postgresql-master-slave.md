@@ -84,7 +84,7 @@ CREATE SUBSCRIPTION my_sub CONNECTION 'dbname=mydb1 host=postgres1_ip_address po
 在 postgres1 主库 mydb1 中插入数据。
 
 ```sql
-INSERT INTO mytable VALUES ('hello');
+INSERT INTO mytable VALUES (1,'hello');
 ```
 
 在 postgres2 从库 mydb2 中查询数据。
