@@ -2,6 +2,17 @@
 
 不同数据库对象的命名约定不同，EF Core 为了适配不同数据库，提供了一些命名约定的配置选项。
 
+## 常见的命名方法
+
+| Naming policy  | Original | Converted |
+|----------------|--------------|--------------|
+| PascalCase     | HelloShop  | HelloShop  |
+| CamelCase      | HelloShop  | helloShop  |
+| SnakeCaseLower | HelloShop  | hello_shop | 
+| SnakeCaseUpper | HelloShop  | HELLO_SHOP |
+| KebabCaseLower | HelloShop  | hello-shop |
+| KebabCaseUpper | HelloShop  | HELLO-SHOP |
+
 ## 手动指定表名和列名
 
 ### 表名

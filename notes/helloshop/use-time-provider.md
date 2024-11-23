@@ -37,7 +37,7 @@ public class MyTimeProvider : TimeProvider
 默认实现 TimeProvider.System 使用系统时间。
 
 ```csharp
-builder.Services.AddSingleton<TimeProvider>(TimeProvider.System);
+builder.Services.AddSingleton(TimeProvider.System);
 ```
 
 注入 MyTimeProvider 使用自定义时间。
