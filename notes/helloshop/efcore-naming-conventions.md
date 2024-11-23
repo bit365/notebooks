@@ -13,6 +13,8 @@
 | KebabCaseLower | HelloShop  | hello-shop |
 | KebabCaseUpper | HelloShop  | HELLO-SHOP |
 
+可使用 [Humanizr](https://github.com/Humanizr/Humanizer) 库将字符串转换为不同的命名风格。
+
 ## 表名使用单数还是复数
 
 EF Core 默认情况下，表名使用单数形式，可以通过约定器或者手动指定复数表名，社区对单数和复数表名的争论一直存在，没有统一的标准，但零度推荐使用单数形式。
