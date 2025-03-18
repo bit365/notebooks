@@ -1,4 +1,4 @@
-# 使用 TimeProvider 服务
+# 使用 TimeProvider 类注入时间
 
 System.TimeProvider 是一种时间抽象，它以 DateTimeOffset 类型的形式提供时间点。 通过使用 TimeProvider，可确保代码可测试且可预测。 TimeProvider 已在 .NET 8 中引入。
 
@@ -22,6 +22,7 @@ public class CustomTimeProvider: TimeProvider
 
 ```csharp
 builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.AddSingleton<TimeProvider, CustomTimeProvider>();
 ```
 
 ```csharp
