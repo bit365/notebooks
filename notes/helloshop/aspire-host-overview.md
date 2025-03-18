@@ -82,7 +82,7 @@ var connection = builder.AddConnectionString("myconnection");
 builder.AddProject<Projects.ApiService>("api").WithReference(connection);
 ``` 
 
-## 连接字符串和终结点引用
+## 终结点引用
 
 ```csharp
 var builder = DistributedApplication.CreateBuilder(args);
@@ -98,7 +98,7 @@ var apiservice = builder.AddProject<Projects.AspireApp_ApiService>("apiservice")
 ## 在 Redis 组件上启用管理扩展
 
 ```csharp
-var redis = builder.AddRedis("redis").WithManagement();
+var redis = builder.AddRedis("redis").WithRedisInsight();
 var redis = builder.AddRedis("redis").WithRedisCommander();
 ```
 
